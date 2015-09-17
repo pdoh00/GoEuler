@@ -3,300 +3,50 @@ package main
 import (
 	"fmt"
 	"errors"
-	"sort"
-	"strconv"
+	"time"
+//	"math/big"
 )
+
+type eulerProblem func() (result int)
+
+var problems = make(map[int]eulerProblem)
+
+func init() {
+	fmt.Println("Initializing")
+	problems[0] = Problem1
+	problems[1] = Problem2
+	problems[2] = Problem3
+	problems[3] = Problem4
+	problems[4] = Problem5
+	problems[5] = Problem6
+	problems[6] = Problem7
+	problems[7] = Problem8
+	problems[8] = Problem9
+	problems[9] = Problem10
+	problems[10] = Problem11
+//	problems[11] = Problem12
+
+}
 
 func main() {
 	fmt.Println("Hello from projectEuler")
-	fmt.Printf("The result of Problem 1 is %d\n", problem1())
-	fmt.Printf("The result of Problem 2 is %d\n", problem2())
-	fmt.Printf("The result of Problem 3 is %d\n", problem3())
-	fmt.Printf("The result of Problem 4 is %d\n", problem4())
-	fmt.Printf("The result of Problem 5 is %d\n", problem5())
-	fmt.Printf("The result of Problem 6 is %d\n", problem6())
-	fmt.Printf("The result of Problem 7 is %d\n", problem7())
-	fmt.Printf("The result of Problem 8 is %d\n", problem8())
-	fmt.Printf("The result of Problem 9 is %d\n", problem9())
-	fmt.Printf("The result of Problem 10 is %d\n", problem10())
-	fmt.Printf("The result of Problem 11 is %d\n", problem11())
-	// 	fmt.Printf("The result of Problem 25 is %d\n", problem25())
+	for i := 0; i < len(problems); i++ {
+		startTime := time.Now()
+		result := problems[i]()
+		endTime := time.Now()
+
+		fmt.Printf("The result of Problem %d is %d. Execution time: %v\n", i + 1, result, endTime.Sub(startTime))
+	}
 }
 
-// problem1
-// sum all multiples of 3 and 5 under 1000
-func problem1() int {
-
-	sum := 0
-	for i := 0; i < 1000; i++ {
-		if i % 3 == 0 || i % 5 == 0 {
-			sum += i
+func calculateFactors(n int) []int {
+	var factors []int
+	for i := 1; i <= n; i++ {
+		if n % i == 0 {
+			factors = append(factors, i)
 		}
 	}
-	return sum
-}
-
-// problem2
-// By considering the terms in the Fibonacci sequence whose values do not exceed
-// four million, find the sum of the even-valued terms.
-func problem2() int {
-	sum := 0
-	memo := make(map[int]int)
-
-	for i := 0;; i++ {
-		v := fib(i, memo)
-		if v >= 4000000 {
-			break;
-		}
-		if v % 2 == 0 {
-			sum += v
-		}
-	}
-	return sum
-}
-
-// problem 3
-// What is the largest prime factor of the number 600851475143
-func problem3() int {
-	checkValue := 600851475143
-	var primeFactors []int
-
-	for {
-		val, err := getFirstPrimeFactor(checkValue)
-		if err != nil {
-			break
-		}
-		primeFactors = append(primeFactors, val)
-		checkValue = checkValue / val
-	}
-	sort.Ints(primeFactors)
-	return primeFactors[len(primeFactors) - 1]
-}
-
-// problem 4
-// Find the largest palindrome made from the product of two 3-digit numbers.
-func problem4() int {
-
-	var tempBiggestPalindrome int
-	for i := 100; i < 1000; i++ {
-		for j := 100; j < 1000; j++ {
-			product := i * j
-			if isPalindrome(strconv.Itoa(product)) && product > tempBiggestPalindrome {
-				tempBiggestPalindrome = product
-			}
-		}
-	}
-	return tempBiggestPalindrome
-}
-
-// problem 5
-// What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20
-func problem5() int {
-	var val int = 20
-	for {
-		if val % 1 == 0 &&
-		val % 2 == 0 &&
-		val % 3 == 0 &&
-		val % 4 == 0 &&
-		val % 5 == 0 &&
-		val % 6 == 0 &&
-		val % 7 == 0 &&
-		val % 8 == 0 &&
-		val % 9 == 0 &&
-		val % 10 == 0 &&
-		val % 11 == 0 &&
-		val % 12 == 0 &&
-		val % 13 == 0 &&
-		val % 14 == 0 &&
-		val % 15 == 0 &&
-		val % 16 == 0 &&
-		val % 17 == 0 &&
-		val % 18 == 0 &&
-		val % 19 == 0 &&
-		val % 20 == 0 {
-			return val
-		}
-		val++
-	}
-
-}
-
-// problem 6
-// Find the difference between the sum of the squares of the first one hundred natural numbers and the square of the sum.
-func problem6() int {
-	var sumOfSquares int = 0
-	var squareOfSums int = 0
-	for i := 1; i <= 100; i++ {
-		sumOfSquares += i * i
-		squareOfSums += i
-	}
-	squareOfSums = squareOfSums * squareOfSums
-	return squareOfSums - sumOfSquares
-}
-
-// problem 7
-// What is the 10 001st prime number?
-func problem7() int {
-	var primeIndex int = 1000
-	for i := primes[len(primes) - 1];; i++ {
-		if isLikelyPrime(i) {
-			primeIndex ++
-			if primeIndex == 10001 {
-				return i
-			}
-		}
-	}
-	return 0
-}
-
-// problem 8
-// Find the thirteen adjacent digits in the 1000-digit number that have the greatest product. What is the value of this product?
-func problem8() int {
-	var digits [1000]int
-	var maxSumOf13 int
-	for i, runeValue := range problem8Value {
-		//convert all the runes to ints
-		digits[i] = int(runeValue - '0')
-	}
-
-	var sum int
-	for i := 0; i < len(digits) - 13; i++ {
-		sum = digits[i] *
-		digits[i + 1] *
-		digits[i + 2] *
-		digits[i + 3] *
-		digits[i + 4] *
-		digits[i + 5] *
-		digits[i + 6] *
-		digits[i + 7] *
-		digits[i + 8] *
-		digits[i + 9] *
-		digits[i + 10] *
-		digits[i + 11] *
-		digits[i + 12]
-		if sum > maxSumOf13 {
-			maxSumOf13 = sum
-		}
-	}
-	return maxSumOf13
-}
-
-// problem 9
-// There exists exactly one Pythagorean triplet for which a + b + c = 1000.
-// Find the product abc.
-func problem9() int {
-	for a := 0; a < 1000; a++ {
-		for b := 0; b < 1000; b++ {
-			for c := 0; c < 1000; c++ {
-				if a < b && b < c &&
-				a + b + c == 1000 &&
-				a * a + b * b == c * c {
-					return a * b * c
-				}
-			}
-		}
-	}
-	return 0
-}
-
-// problem 10
-// Find the sum of all the primes below two million.
-func problem10() int {
-	sum := 0
-	//initialize sum with all the known primes
-	for _, num := range primes {
-		sum += num
-	}
-
-	//loop through all the numbers above the last know prime and two million
-	for i := primes[len(primes) - 1] + 1; i < 2000000; i++ {
-		if isLikelyPrime(i) {
-			sum += i
-		}
-	}
-	return sum
-}
-
-// problem 11
-// What is the greatest product of four adjacent numbers in the same direction (up, down, left, right, or diagonally) in the 20×20 grid?
-func problem11() int {
-	var grid = [20][20]int{
-		{8, 2, 22, 97, 38, 15, 0, 40, 0, 75, 4, 5, 7, 78, 52, 12, 50, 77, 91, 8},
-		{49, 49, 99, 40, 17, 81, 18, 57, 60, 87, 17, 40, 98, 43, 69, 48, 4, 56, 62, 0},
-		{81, 49, 31, 73, 55, 79, 14, 29, 93, 71, 40, 67, 53, 88, 30, 3, 49, 13, 36, 65},
-		{52, 70, 95, 23, 4, 60, 11, 42, 69, 24, 68, 56, 1, 32, 56, 71, 37, 2, 36, 91},
-		{22, 31, 16, 71, 51, 67, 63, 89, 41, 92, 36, 54, 22, 40, 40, 28, 66, 33, 13, 80},
-		{24, 47, 32, 60, 99, 3, 45, 2, 44, 75, 33, 53, 78, 36, 84, 20, 35, 17, 12, 50},
-		{32, 98, 81, 28, 64, 23, 67, 10, 26, 38, 40, 67, 59, 54, 70, 66, 18, 38, 64, 70},
-		{67, 26, 20, 68, 2, 62, 12, 20, 95, 63, 94, 39, 63, 8, 40, 91, 66, 49, 94, 21},
-		{24, 55, 58, 5, 66, 73, 99, 26, 97, 17, 78, 78, 96, 83, 14, 88, 34, 89, 63, 72},
-		{21, 36, 23, 9, 75, 0, 76, 44, 20, 45, 35, 14, 0, 61, 33, 97, 34, 31, 33, 95},
-		{78, 17, 53, 28, 22, 75, 31, 67, 15, 94, 3, 80, 4, 62, 16, 14, 9, 53, 56, 92},
-		{16, 39, 5, 42, 96, 35, 31, 47, 55, 58, 88, 24, 0, 17, 54, 24, 36, 29, 85, 57},
-		{86, 56, 0, 48, 35, 71, 89, 7, 5, 44, 44, 37, 44, 60, 21, 58, 51, 54, 17, 58},
-		{19, 80, 81, 68, 5, 94, 47, 69, 28, 73, 92, 13, 86, 52, 17, 77, 4, 89, 55, 40},
-		{4, 52, 8, 83, 97, 35, 99, 16, 7, 97, 57, 32, 16, 26, 26, 79, 33, 27, 98, 66},
-		{88, 36, 68, 87, 57, 62, 20, 72, 3, 46, 33, 67, 46, 55, 12, 32, 63, 93, 53, 69},
-		{4, 42, 16, 73, 38, 25, 39, 11, 24, 94, 72, 18, 8, 46, 29, 32, 40, 62, 76, 36},
-		{20, 69, 36, 41, 72, 30, 23, 88, 34, 62, 99, 69, 82, 67, 59, 85, 74, 4, 36, 16},
-		{20, 73, 35, 29, 78, 31, 90, 1, 74, 31, 49, 71, 48, 86, 81, 16, 23, 57, 5, 54},
-		{1, 70, 54, 71, 83, 51, 54, 69, 16, 92, 33, 48, 61, 43, 52, 1, 89, 19, 67, 48}}
-
-	var maxProd int
-
-	for i := 0; i < 17; i++ {
-		for j := 0; j < 20; j++ {
-			horizontalProduct := grid[i][j] * grid[i + 1][j] * grid[i + 2][j] * grid[i + 3][j]
-			if horizontalProduct > maxProd {
-				maxProd = horizontalProduct
-			}
-		}
-	}
-	for i := 0; i < 20; i++ {
-		for j := 0; j < 17; j++ {
-			verticalProduct := grid[i][j] * grid[i][j + 1] * grid[i][j + 2] * grid[i][j + 3]
-			if verticalProduct > maxProd {
-				maxProd = verticalProduct
-			}
-		}
-	}
-	for i := 0; i < 17; i++ {
-		for j := 0; j < 17; j++ {
-			diagonalProduct := grid[i][j] * grid[i + 1][j + 1] * grid[i + 2][j + 2] * grid[i + 3][j + 3]
-			if diagonalProduct > maxProd {
-				maxProd = diagonalProduct
-			}
-		}
-	}
-
-	for i := 19; i > 2; i-- {
-		for j := 0; j < 17; j++ {
-			reverseDiagonalProduct := grid[i][j] * grid[i - 1][j + 1] * grid[i - 2][j + 2] * grid[i - 3][j + 3]
-			if reverseDiagonalProduct > maxProd {
-				maxProd = reverseDiagonalProduct
-			}
-		}
-	}
-
-	return maxProd
-}
-
-//func problem25() *big.Int{
-//	var limit big.Int
-//	limit.Exp(big.NewInt(10), big.NewInt(999), nil)
-//
-//
-//
-//	return big.NewInt(0)
-//}
-// isPalindrome determines if the string s is a palindrome.
-func isPalindrome(s string) bool {
-	for i := 0; i <= len(s) / 2; i++ {
-		if s[i] != s[len(s) - (i + 1)] {
-			return false
-		}
-	}
-	return true
+	return factors
 }
 
 // getFirstPrimeFactor returns the first prime factor of checkValue
@@ -313,36 +63,6 @@ func getFirstPrimeFactor(checkValue int) (int, error) {
 func isLikelyPrime(i int) bool {
 	_, err := getFirstPrimeFactor(i)
 	return err != nil
-}
-
-// fibonacci
-// Fn = F(n-1) + F(n-2)
-// n = nth fib
-// memo is a map used to memoize previously calculated values.
-func fib(n int, memo map[int]int) int {
-
-	if n <= 1 {
-		return n
-	} else {
-		var n1 int
-		var n2 int
-		var isPresent bool
-
-		n1, isPresent = memo[n - 1]
-		if !isPresent {
-			n1 = fib(n - 1, memo)
-			memo[n - 1] = n1
-		}
-
-		n2, isPresent = memo[n - 2]
-		if !isPresent {
-			n2 = fib(n - 2, memo)
-			memo[n - 2] = n2
-		}
-
-		return n1 + n2
-	}
-
 }
 
 
@@ -448,23 +168,3 @@ var primes = [1000]int{
 	7727, 7741, 7753, 7757, 7759, 7789, 7793, 7817, 7823, 7829,
 	7841, 7853, 7867, 7873, 7877, 7879, 7883, 7901, 7907, 7919}
 
-var problem8Value string = "73167176531330624919225119674426574742355349194934" +
-"96983520312774506326239578318016984801869478851843" +
-"85861560789112949495459501737958331952853208805511" +
-"12540698747158523863050715693290963295227443043557" +
-"66896648950445244523161731856403098711121722383113" +
-"62229893423380308135336276614282806444486645238749" +
-"30358907296290491560440772390713810515859307960866" +
-"70172427121883998797908792274921901699720888093776" +
-"65727333001053367881220235421809751254540594752243" +
-"52584907711670556013604839586446706324415722155397" +
-"53697817977846174064955149290862569321978468622482" +
-"83972241375657056057490261407972968652414535100474" +
-"82166370484403199890008895243450658541227588666881" +
-"16427171479924442928230863465674813919123162824586" +
-"17866458359124566529476545682848912883142607690042" +
-"24219022671055626321111109370544217506941658960408" +
-"07198403850962455444362981230987879927244284909188" +
-"84580156166097919133875499200524063689912560717606" +
-"05886116467109405077541002256983155200055935729725" +
-"71636269561882670428252483600823257530420752963450"
