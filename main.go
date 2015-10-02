@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"errors"
 	"time"
-//	"math/big"
 )
 
 type eulerProblem func() (result int)
@@ -24,8 +23,9 @@ func init() {
 	problems[8] = Problem9
 	problems[9] = Problem10
 	problems[10] = Problem11
-//	problems[11] = Problem12
-
+	problems[11] = Problem12
+	problems[12] = Problem13
+	problems[13] = Problem14
 }
 
 func main() {
@@ -39,15 +39,7 @@ func main() {
 	}
 }
 
-func calculateFactors(n int) []int {
-	var factors []int
-	for i := 1; i <= n; i++ {
-		if n % i == 0 {
-			factors = append(factors, i)
-		}
-	}
-	return factors
-}
+
 
 // getFirstPrimeFactor returns the first prime factor of checkValue
 func getFirstPrimeFactor(checkValue int) (int, error) {

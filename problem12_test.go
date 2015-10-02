@@ -1,12 +1,13 @@
 package main
+
 import (
-	"testing"
 	"errors"
+	"testing"
 )
 
 func TestProblem12(t *testing.T) {
-	//	result := Problem12()
-	//	if result != 70600674 {
-	t.Error(errors.New("Problem12 incomplete"))
-	//	}
+	result := Problem12()
+	if result != 76576500 {
+		t.Error(errors.New("Problem12 failed"))
+	}
 }

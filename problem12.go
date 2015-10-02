@@ -1,22 +1,37 @@
 package main
 
+import (
+	"math"
+)
+
+// Problem12
+// What is the value of the first triangle number to have over five hundred divisors?
 func Problem12() int {
-	var index int = 0
+
+	var index int = 1
+	var triangle int = 0
 	for {
-		triangle := generateNthTriangle(index)
+
+		triangle += index
 		factors := calculateFactors(triangle)
 		if len(factors) > 500 {
-			return index
+			return triangle
 		}
+
 		index++
 	}
 	return 0
 }
 
-func generateNthTriangle(n int) int {
-	sum := 0
-	for i := 1; i <= n; i++ {
-		sum += i
+func calculateFactors(n int) []int {
+	var factors []int
+
+	for i := 1; i <= int(math.Sqrt(float64(n))+1); i++ {
+		if n%i == 0 {
+			factors = append(factors, i)
+			factors = append(factors, n/i)
+		}
 	}
-	return sum
+
+	return factors
 }

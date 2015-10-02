@@ -27,24 +27,24 @@ func fib(n int, memo map[int]int) int {
 
 	if n <= 1 {
 		return n
-	} else {
-		var n1 int
-		var n2 int
-		var isPresent bool
-
-		n1, isPresent = memo[n - 1]
-		if !isPresent {
-			n1 = fib(n - 1, memo)
-			memo[n - 1] = n1
-		}
-
-		n2, isPresent = memo[n - 2]
-		if !isPresent {
-			n2 = fib(n - 2, memo)
-			memo[n - 2] = n2
-		}
-
-		return n1 + n2
 	}
+
+	var n1 int
+	var n2 int
+	var isPresent bool
+
+	n1, isPresent = memo[n - 1]
+	if !isPresent {
+		n1 = fib(n - 1, memo)
+		memo[n - 1] = n1
+	}
+
+	n2, isPresent = memo[n - 2]
+	if !isPresent {
+		n2 = fib(n - 2, memo)
+		memo[n - 2] = n2
+	}
+
+	return n1 + n2
 
 }
