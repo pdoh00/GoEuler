@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-type eulerProblem func() (result int)
+type eulerProblem func() (result interface{})
 
 var problems = make(map[int]eulerProblem)
 
@@ -27,6 +27,7 @@ func init() {
 	problems[12] = Problem13
 	problems[13] = Problem14
 	problems[14] = Problem15
+	problems[15] = Problem16
 }
 
 func main() {

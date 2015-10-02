@@ -2,7 +2,7 @@ package main
 
 // problem 5
 // What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20
-func Problem5() int {
+func Problem5() interface{} {
 	var val int = 20
 	for {
 		if val % 1 == 0 &&

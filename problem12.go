@@ -6,7 +6,7 @@ import (
 
 // Problem12
 // What is the value of the first triangle number to have over five hundred divisors?
-func Problem12() int {
+func Problem12() interface{} {
 
 	var index int = 1
 	var triangle int = 0

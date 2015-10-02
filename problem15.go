@@ -1,11 +1,10 @@
 package main
 
 import (
-	"fmt"
 	"math/big"
 )
 
-func Problem15() int {
+func Problem15() interface{} {
 	//The number of paths are the central binomial coefficients
 	// (2n)! / n!^2 where nxn is the dimension of the graph
 
@@ -36,6 +35,6 @@ func factorial(n *big.Int) *big.Int {
 		one.SetInt64(1)
 		result.Mul(result, factorial(n.Sub(n, &one)))
 	}
-	fmt.Printf("%s! is %d\n", n.String(), result)
+
 	return result
 }

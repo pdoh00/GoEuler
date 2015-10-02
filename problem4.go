@@ -4,7 +4,7 @@ import "strconv"
 
 // problem 4
 // Find the largest palindrome made from the product of two 3-digit numbers.
-func Problem4() int {
+func Problem4() interface{} {
 
 	var tempBiggestPalindrome int
 	for i := 100; i < 1000; i++ {

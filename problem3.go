@@ -4,7 +4,7 @@ import "sort"
 
 // problem 3
 // What is the largest prime factor of the number 600851475143
-func Problem3() int {
+func Problem3() interface{} {
 	checkValue := 600851475143
 	var primeFactors []int
 

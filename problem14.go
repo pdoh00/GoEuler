@@ -1,10 +1,9 @@
 package main
 
-import "fmt"
 
 // Problem14
 // Longest Collatz sequence
-func Problem14() int {
+func Problem14() interface{} {
 
 	var longestChainLength int
 	var startNum int
@@ -16,7 +15,7 @@ func Problem14() int {
 			longestChainLength = len(seq)
 		}
 	}
-	fmt.Printf("the longest chain starts with %d and is %d long", startNum, longestChainLength)
+
 	return startNum
 }
 

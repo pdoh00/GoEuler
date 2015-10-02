@@ -2,7 +2,7 @@ package main
 
 // problem 10
 // Find the sum of all the primes below two million.
-func Problem10() int {
+func Problem10() interface{} {
 	sum := 0
 	//initialize sum with all the known primes
 	for _, num := range primes {

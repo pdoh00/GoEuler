@@ -3,7 +3,7 @@ package main
 // problem2
 // By considering the terms in the Fibonacci sequence whose values do not exceed
 // four million, find the sum of the even-valued terms.
-func Problem2() int {
+func Problem2() interface{} {
 	sum := 0
 	memo := make(map[int]int)
 
