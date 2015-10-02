@@ -20,7 +20,7 @@ func Problem15() interface{} {
 
 	answer := numerator.Div(numerator, denominator)
 
-	return int(answer.Int64())
+	return answer.Int64()
 }
 
 func factorial(n *big.Int) *big.Int {

@@ -152,5 +152,5 @@ func Problem13() interface{} {
 		panic(err)
 	}
 
-	return int(finalRetVal)
+	return finalRetVal
 }

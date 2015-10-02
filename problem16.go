@@ -20,5 +20,5 @@ func Problem16() interface{} {
 		sum += x
 	}
 
-	return int(sum)
+	return sum
 }
