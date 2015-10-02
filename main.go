@@ -26,6 +26,7 @@ func init() {
 	problems[11] = Problem12
 	problems[12] = Problem13
 	problems[13] = Problem14
+	problems[14] = Problem15
 }
 
 func main() {
